@@ -3,16 +3,15 @@ from UUGear import *
 
 UUGearDevice.setShowLogs(1)
 device1 = UUGearDevice('UUGear-Arduino-7519-9895')
-#device1 = UUGearDevice('UUGear-Arduino-XXXX-XXXX')
-devices = [device1]
-#devices = [device2]
+device2 = UUGearDevice('UUGear-Arduino-XXXX-XXXX')
+devices = [device1, device2]
 
 i = 0
 while i<len(devices):
         if devices[i].isValid():
-                print 'Device 1 is ready.'
+                print 'Device %i is ready.' %(i+1)
         else:
-                print 'Device 1 is not ready.'
+                print 'Device %i is not ready.' %(i+1)
         i=i+1
         
 AnalogPinsFromMux = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
@@ -32,29 +31,39 @@ DigitalPinsToMux = [
         [49, 50, 51, 52]
         ]
 MuxChannels = 16;
-i = 0
-while i < len(devices):                   #loop through Arduino Devices
-        #print BinIndex
-        j = MuxChannels-1
-        while j >= 0:
-                BinIndex = "{0:04b}".format(j)
-                l = 0
-                while l < len(BinIndex):
-                        k = 0
-                        state = ""
-                        while k < len(DigitalPinsToMux):
-                                if BinIndex[l] == '1':
-                                        devices[i].setPinHigh(DigitalPinsToMux[k][l])
-                                        state = "High"
-                                else:
-                                        devices[i].setPinLow(DigitalPinsToMux[k][l])
-                                        state = "Low"
-                                k = k + 1
-                                sleep(0.01)
-                        print state
-                        l = l + 1
-                print "Take measurement"
-                j = j - 1
-        device1.detach()
-        device1.stopDaemon()
-        i=i+1
+MaxIterations = 2
+
+Iterations = 1
+while Iterations <= MaxIterations:                                      #number of iterations
+        i = 0
+        while i < len(devices):                                         #loop through Arduino Devices 
+                print "----------------------------"
+                print "DEVICE %i" %(i+1)
+                print "----------------------------"
+                j = MuxChannels-1
+                while j >= 0:                                           #loop through mux channels
+                        BinIndex = "{0:04b}".format(j)                  #convert decimal number of mux channel to binary
+                        l = 0
+                        while l < len(BinIndex):                        #loop through all characters in the 
+                                k = 0
+                                state = ""
+                                while k < len(DigitalPinsToMux):        #Set digital pins for mux
+                                        if BinIndex[l] == '1':
+                                                devices[i].setPinHigh(DigitalPinsToMux[k][l])
+                                                state = "High"
+                                        else:
+                                                devices[i].setPinLow(DigitalPinsToMux[k][l])
+                                                state = "Low"
+                                        k = k + 1
+                                        sleep(0.01)
+                                print state
+                                l = l + 1
+                        l = 1
+                        while l <= len(DigitalPinsToMux):               #take measurements from position j on each mux card
+                                print "muxboard #%i channel #%i" %(l, (j+1))
+                                l = l + 1
+                        j = j - 1
+                device1.detach()
+                device1.stopDaemon()
+                i=i+1
+        Iterations = Iterations +1
