@@ -1,6 +1,6 @@
 from time import sleep
 from UUGear import *
-#skit samma
+
 UUGearDevice.setShowLogs(1)
 device1 = UUGearDevice('UUGear-Arduino-7519-9895')
 #device1 = UUGearDevice('UUGear-Arduino-XXXX-XXXX')
@@ -35,28 +35,26 @@ MuxChannels = 16;
 i = 0
 while i < len(devices):                   #loop through Arduino Devices
         #print BinIndex
-        k = 0
-        while k < len(DigitalPinsToMux):
-                j = 0
-                while j < MuxChannels:
-                        BinIndex = "{0:04b}".format(j)
-                        l = 0
-                        while l < len(BinIndex):
+        j = MuxChannels-1
+        while j >= 0:
+                BinIndex = "{0:04b}".format(j)
+                l = 0
+                while l < len(BinIndex):
+                        k = 0
+                        state = ""
+                        while k < len(DigitalPinsToMux):
                                 if BinIndex[l] == '1':
                                         devices[i].setPinHigh(DigitalPinsToMux[k][l])
-                                        print "High"
+                                        state = "High"
                                 else:
                                         devices[i].setPinLow(DigitalPinsToMux[k][l])
-                                        print "Low"
-                                l = l + 1
-                                sleep(0.1)
-                        print "Take measurement"
-                        l = 0
-                        while l < len(BinIndex):
-                                devices[i].setPinLow(DigitalPinsToMux[k][l])
-                                l = l + 1
-                        j = j + 1
-                k = k + 1
+                                        state = "Low"
+                                k = k + 1
+                                sleep(0.01)
+                        print state
+                        l = l + 1
+                print "Take measurement"
+                j = j - 1
         device1.detach()
         device1.stopDaemon()
         i=i+1
