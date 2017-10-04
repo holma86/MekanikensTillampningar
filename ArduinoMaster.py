@@ -31,14 +31,14 @@ DigitalPinsToMux = [
         [49, 50, 51, 52]
         ]
 MuxChannels = 16;
-MaxIterations = 2
+MaxIterations = 1
 
 Iterations = 1
 while Iterations <= MaxIterations:                                      #number of iterations
         i = 0
         while i < len(devices):                                         #loop through Arduino Devices 
                 print "----------------------------"
-                print "DEVICE %i" %(i+1)
+                print "Arduino Mega #%i" %(i+1)
                 print "----------------------------"
                 j = MuxChannels-1
                 while j >= 0:                                           #loop through mux channels
@@ -55,13 +55,14 @@ while Iterations <= MaxIterations:                                      #number 
                                                 devices[i].setPinLow(DigitalPinsToMux[k][l])
                                                 state = "Low"
                                         k = k + 1
-                                        sleep(0.01)
                                 print state
                                 l = l + 1
                         l = 1
                         while l <= len(DigitalPinsToMux):               #take measurements from position j on each mux card
-                                print "muxboard #%i channel #%i" %(l, (j+1))
+                                sleep(0.01)
+                                print "Measurement: muxboard #%i channel #%i" %(l, (j+1))
                                 l = l + 1
+                        print "----------------------------------"
                         j = j - 1
                 device1.detach()
                 device1.stopDaemon()
