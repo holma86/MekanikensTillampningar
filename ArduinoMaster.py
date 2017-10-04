@@ -1,6 +1,6 @@
 from time import sleep
 from UUGear import *
-
+#skit samma
 UUGearDevice.setShowLogs(1)
 device1 = UUGearDevice('UUGear-Arduino-7519-9895')
 #device1 = UUGearDevice('UUGear-Arduino-XXXX-XXXX')
@@ -32,7 +32,6 @@ DigitalPinsToMux = [
         [49, 50, 51, 52]
         ]
 MuxChannels = 16;
-a = 0
 i = 0
 while i < len(devices):                   #loop through Arduino Devices
         #print BinIndex
