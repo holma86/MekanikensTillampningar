@@ -3,14 +3,14 @@ from UUGear import *
 
 UUGearDevice.setShowLogs(0)
 
-device = UUGearDevice('UUGear-Arduino-7853-2668')
+device = UUGearDevice('UUGear-Arduino-7519-9895')
 
 if device.isValid():
-	device.setPinModeAsOutput(13)
+	device.setPinModeAsOutput(2)
 	for i in range(5):
-		device.setPinHigh(13)
+		device.setPinHigh(2)
 		sleep(0.2)
-		device.setPinLow(13)
+		device.setPinLow(2)
 		sleep(0.2)
 	
 	device.setPinModeAsInput(9)

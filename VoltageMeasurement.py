@@ -3,11 +3,11 @@ from UUGear import *
 
 UUGearDevice.setShowLogs(0)
 
-device = UUGearDevice('UUGear-Arduino-7853-2668')
+device = UUGearDevice('UUGear-Arduino-7519-9895')
 
 if device.isValid():
-	for i in range(100):
-		print "%0.2f" % (float(device.analogRead(3)) * 5 / 1024), "V"
+	for i in range(3):
+		print "%0.2f" % (float(device.analogRead(0)) * 5 / 1024), "V"
 		sleep(0.2)
 	
 	device.detach()
